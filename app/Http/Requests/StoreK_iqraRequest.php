@@ -11,7 +11,7 @@ class StoreK_iqraRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,9 @@ class StoreK_iqraRequest extends FormRequest
         return [
             'full_name' => 'required|max:255',
             'gender'=> 'required',
-            'phone_number'=> 'required|unique:iqras|max:20',
-            'address' => 'required',
-            'is_commit' => 'required'
+            'phone'=> 'required|unique:iqras|max:20',
+            'address' => 'required'
+            // 'is_commit' => 'required'
         ];
     }
 }

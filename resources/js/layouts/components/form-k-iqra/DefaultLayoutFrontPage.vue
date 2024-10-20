@@ -24,9 +24,9 @@ const router = useRouter()
 const iqra = useForm('post', '/api/k-iqra', {
     full_name: "",
     gender: "",
-    phone_number: "",
-    address: "",
-    is_commit: false
+    phone: "",
+    address: ""
+    // is_commit: ""
 })
 
 let success = ref(false)
@@ -34,7 +34,7 @@ let success = ref(false)
 iqra.setValidationTimeout(3000)
 
 const data = {
-  is_commit: false,
+  // is_commit: "",
   wa_link:"",
   message:""
 }
@@ -44,10 +44,11 @@ const info = ref(null)
 
 const addPeserta = () => iqra.submit()
     .then(response => {
+        console.log(response.data.data)
         iqra.reset()
-        data.is_commit = ref(response.data.data.is_commit)
+        // data.is_commit = ref(response.data.data.is_commit)
         data.wa_link = ref(response.data.data.wa_link)
-        data.message = ref(response.data.data.message)
+        data.message = ref(response.data.message)
         success = toRef(true)
         // console.log(response.data.data.gender)
         // console.log(data.url.value)
@@ -127,9 +128,9 @@ const isPasswordVisible = ref(false)
 
             <NavbarThemeSwitcher class="me-2" />
 
-            <v-img 
+            <!-- <v-img 
               :src="'../assets/logo-skai.jpg'" 
-              max-width="50"/>
+              max-width="50"/> -->
             <!-- <UserProfile /> -->
         </div>
       </div>
@@ -151,9 +152,9 @@ const isPasswordVisible = ref(false)
               class="d-flex text-primary"
               v-html="logo"
             /> -->
-            <v-img 
+            <!-- <v-img 
               :src="'../assets/logo-skai.jpg'" 
-              max-width="50"/>
+              max-width="50"/> -->
           </div>
         </template>
 
@@ -184,22 +185,20 @@ const isPasswordVisible = ref(false)
           
           <br>
           <VRow class="mt-5">
-            <VCol
-              cols="3"
-              v-if="iqra.is_commit==true"
+            <VCol cols="3"
             >
-            Konfirmasi telah melakukan pembayaran biaya pendidikan ⤵️ : 
+            Konfirmasi pembayaran biaya pendidikan ⤵️ : 
             </VCol>
-            <VCol
+            <!-- <VCol
               cols="3"
-              v-if="iqra.is_commit==false"
+              v-if="iqra.is_commit=='0'"
             >
             Konfirmasi untuk pembayaran biaya pendidikan ⤵️ : 
-            </VCol>
+            </VCol> -->
             <VCol
               cols="9"
             >
-            <a :href="data.url.value" target="_blank">{{ data.wa_link.value }}</a>
+            <a :href="data.wa_link.value" target="_blank">{{ data.wa_link.value }}</a>
 
             </VCol>
           </VRow>
@@ -238,14 +237,14 @@ const isPasswordVisible = ref(false)
             <!-- No. HP. -->
             <VCol cols="12">
               <VTextField
-                v-model="iqra.phone_number"
-                @change="iqra.validate('phone_number')"
+                v-model="iqra.phone"
+                @change="iqra.validate('phone')"
                 autofocus
                 label="No. WA"
                 placeholder="08123456790"
               />
-              <div v-if="iqra.invalid('phone_number')" class="text-danger">
-                  {{ iqra.errors.phone_number }}
+              <div v-if="iqra.invalid('phone')" class="text-danger">
+                  {{ iqra.errors.phone }}
               </div>
             </VCol>
             <!-- email -->
@@ -262,23 +261,25 @@ const isPasswordVisible = ref(false)
               </div>
             </VCol>
             <VCol cols="12">
-              <VLabel
-                  for="privacy-policy"
-                  style="opacity: 1;"
-                >
-                  <small class="me-1">Berkomitmen membayar biaya pendidikan selama 
-                    kelas berlangsung hingga selesai. 
-                  </small>
-                  <!-- <a
-                    href="javascript:void(0)"
-                    class="text-primary"
-                  >privacy policy & terms</a> -->
-              </VLabel>
-              <v-radio-group v-model="iqra.is_commit">
-                <v-radio label="Sudah Bayar Bulan ini" value="1"></v-radio>
-                <v-radio label="Belum Bayar" value="2"></v-radio>
-              </v-radio-group>
-            </VCol>
+             
+             <div class="d-flex align-center mt-1 mb-4">
+               <VCheckbox
+                 id="privacy-policy"
+                 inline
+               />
+               <VLabel
+                 for="privacy-policy"
+                 style="opacity: 1;"
+               >
+                 <small class="me-1"> Saya berkomitmen membayar biaya pendidikan selama kelas berlangsung hingga selesai.</small>
+                 <!-- <a
+                   href="javascript:void(0)"
+                   class="text-primary"
+                 >privacy policy & terms</a> -->
+               </VLabel>
+             </div>
+
+           </VCol>
             <!-- password -->
           
             <Vcol cols="12">

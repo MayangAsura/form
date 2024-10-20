@@ -31,28 +31,46 @@ class K_iqraController extends Controller
     {
         $request->validated();
 
+        
         $iqras = new K_iqra([
             'full_name' => $request->input('full_name'),
             'gender'=> $request->input('gender'),
-            'phone_number'=> $request->input('phone_number'),
-            'address' => $request->input('address'),
-            'is_commit' => $request->input('is_commit')
+            'phone'=> $request->input('phone'),
+            'address' => $request->input('address')
+            // 'is_commit' => $request->input(key: 'is_commit')
         ]);
-
-        $iqras->save();
-
-        $wa_link = $iqras->is_commit?"https://api.whatsapp.com/send?phone=6281265557612&text=bismillah%2C%20Assalamu'alaikum%2C%20Alhamdulillah%20ana%20%5BFulan%5D%20sudah%20membayar%20biaya%20pendidikan%2C%20berikut%20bukti%20transfer.%20Jazaakumullahu%20khayran.":"https://api.whatsapp.com/send?phone=6281265557612&text=bismillah%2C%20Assalamu'alaikum%2C%20Alhamdulillah%20ana%20%5BFulan%5D%20sudah%20mendaftar%20namun%20belum%20membayar%20biaya%20pendidikan.%20Jazaakumullahu%20khayran.";
         
-        return response()->json(
-            [
-                'code' => 200,
-                'message' => 'Jazaakumullahu khayran, Antum telah bergabung di kelas IQRA Ikhwan. Semoga        mendapatkan ilmu yang bermanfaat.',
-                'data' => [
-                    'is_commit' => $iqras['is_commit'],
-                    'wa_link' => $wa_link
+        // var_dump($iqras);
+        $wa_link = "https://api.whatsapp.com/send?phone=6281265557612&text=bismillah%2C%20Assalamu'alaikum%2C%20Alhamdulillah%20ana%20%5BFulan%5D%20sudah%20mendaftar%20dan%20ingin%20konfirmasi%20biaya%20pendidikan.%20Jazaakumullahu%20khayran.";
+
+        // https://api.whatsapp.com/send?phone=6281265557612&text=bismillah%2C%20Assalamu'alaikum%2C%20Alhamdulillah%20ana%20%5BFulan%5D%20sudah%20membayar%20biaya%20pendidikan%2C%20berikut%20bukti%20transfer.%20Jazaakumullahu%20khayran.
+        if($iqras->save()){
+
+            
+            return response()->json(
+                [
+                    'code' => 200,
+                    'message' => 'Jazaakumullahu khayran, Antum telah bergabung di kelas IQRA Ikhwan. Semoga mendapatkan ilmu yang bermanfaat.',
+                    'data' => [
+                        // 'is_commit' => $iqras['is_commit'],
+                        'wa_link' => $wa_link
+                    ]
                 ]
-            ]
-        );
+            );
+
+        }else{
+            return response()->json(
+                [
+                    'code' => 500,
+                    'message' => 'Tidak berhasil',
+                    'data' => [
+                        // 'is_commit' => $iqras['is_commit'],
+                        'wa_link' => ""
+                    ]
+                ]
+            );
+        }
+
     }
 
     /**

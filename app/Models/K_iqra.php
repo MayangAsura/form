@@ -12,8 +12,8 @@ class K_iqra extends Model
     protected $fillable = [
         'full_name',
         'gender',
-        'phone_number',
-        'address',
-        'is_commit'
+        'phone',
+        'address'
+        // 'is_commit'
     ];
 }

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string("full_name", 255);
             $table->string("gender", 10);
             $table->string("phone", 50);
-            $table->string('address', 100);
-            $table->boolean('is_commit')->default(false);
+            $table->string('address', length: 100);
+            $table->string('is_commit', 1)->default('0');
             $table->timestamps();
         });
     }
